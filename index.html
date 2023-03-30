@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .mytitle {
+            background-color: aqua;
+            color: aliceblue;
+
+            height: 300px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg');
+            background-position: center;
+            background-size: cover;
+
+
+        }
+
+        .mytitle>button {
+            width: 400px;
+            height: 45px;
+
+            background-color: transparent;
+
+            border: 1px solid white;
+            color: white;
+
+            border-radius: 50px;
+
+            margin-top: 20px;
+        }
+
+        .mytitle>button:hover {
+            border: 2px solid white;
+        }
+
+        .mycards {
+            width: 1200px;
+            margin: 20px auto 20px auto;
+
+
+        }
+        .mypost{
+            width:500px;
+            margin:20px auto 20px auto;
+            padding: 20px 20px 20px 20px;
+
+            box-shadow: 0px 0px 5px 0px gray;
+        }
+        .mybtn{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            
+            margin-top:20px;
+             
+        }
+        .mybtn>button{
+            margin-right:10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1> FED 금리 인하 or 동결</h1>
+        <button> 적절한 긴축정책 필요성, 인플레대응은 별개</button>
+        <button> Fed는 신용경색, 경기 침체를 야기중?</button>
+        <button>더 궁금하면 눌러보기</button>
+    </div>
+    <div class="mypost">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput"> 기사 URL</label>
+        </div>
+       
+
+        <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+            <label for="floatingTextarea">Comments</label>
+        </div>
+        <div class="mybtn">
+            <button type="button" class="btn btn-dark">기록하기</button>
+            <button type="button" class="btn btn-outline-dark">닫기</button>
+
+        </div>
+    </div>
+    <div class="mycards">
+        <div class="card-group">
+            <div class="card">
+                <img src="https://nimage.g-enews.com/phpwas/restmb_allidxmake.php?idx=5&simg=2022010708290104448b5d048c6f3143219063.jpg"
+                    class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">제임스 불러드 세인트루이스 연방준비은행(연은) 총재의 발언에 주목</h5>
+                    <p class="card-text">그는 이날 "적절한 거시건전성 정책을 계속하면 현재의 금융 불안을 억누를 수 있다고 본다"면서 "(금리 인상을 통한) 적절한 통화정책으로는
+                        계속 인플레이션(물가 상승) 하방 압력을 계속할 수 있다"고 말했다.</p>
+                    <p> ⭐⭐⭐⭐</p>
+                    <p class="mycomment"> 연준의 대표적 '매파'인물임. 최근 몇주간 SVB발 우려로 금융 스트레스가 커졌지만 금리가 아니라 규제정책으로 억제할 수있다고 생각하는듯,
+                        금융안정성과 물가안정을 떄려잡을 도구를 따로 쓰겠다는 뜻이겠지. 금융안정은 규제로 때리고 물가는 금리로 때리고,, 시장한테 금리인하 기대감 좀 버리란 소린듯</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://newsimg.sedaily.com/2023/03/30/29N87YWE0A_1.jpg  " class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">글로벌 은행위기 넘겨도 신용경색, 경기침체.. 한국,자금유출 경계</h5>
+                    <p class="card-text">블룸버그는 "신용경색은 긴장 상태인 미국 경제가 필요로 하는 최후의 것"이라며 "은행 대출 축소가 Fed의 금리인상에 이어 경기 침체를 재촉할
+                        수 있다"고 우려했다.문제는 한국과 미국의 기준금리가 이미 역전됐다.두 나라의 금리 차는 역대 최대인 1.5%포인트로 벌어졌다. 국내 외국인 투자 자금이 미국으로 빠져나갈
+                        수 있다는 우려가 나온다.</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://img.hankyung.com/photo/202303/AA.33037710.1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">美 주식·채권·리츠,, 쏟아지는 월배당ETF </h5>
+                    <p class="card-text">미국 배당주에 투자하는 상품은 국내 배당주 ETF보다 다양하다. ‘SOL 미국배당 다우존스’는 10년 이상 배당을 늘려온 미국 기업에 투자하는
+                        ETF로, 지난해 11월 출시 후 3개월 만에 순자산 1000억원을 돌파했다. 주식형 ETF로의 자금 유입이 주춤한 상황에서 이례적인 성과라는 평가다. ‘TIGER
+                        미국다우존스 30’ ‘TIGER 미국 S&P500 배당귀족’ ‘KODEX 미국배당프리미엄액티브’ 등도 있다. 모두 연평균 4~6%의 예상 배당률을 기록하고 있는 상품이다.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
