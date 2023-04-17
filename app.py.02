@@ -1,0 +1,35 @@
+
+from flask import Flask,render_template, request, jsonify
+app = Flask(__name__)
+
+#api를 만들고 사용하는 과정에서 2가지가 필요하다
+#Flask 에 request 와 jsonify라고 하는 기능
+
+
+@app.route('/')
+def home():
+   return render_template('index.html')
+
+@app.route('/test', methods=['POST']) #2. /test에 post로 들어온다
+def test_post():
+   title_receive = request.form['title_give']#3.title_give에 어떤데이터가 들어오면
+   print(title_receive)  #그데이터를 프린트해보고 아래처럼 데이터를 내려주자
+   return jsonify({'result':'success', 'msg': '이 요청은 POST!'})
+#1.post요청 api코드 삽입
+
+#인덱스html 페치코드 삽입후 주석설명
+#4.form데이터라는걸 만들어서 실어서 보낸다. 
+#5.타이틀기브는 리시브로 들어와 찍힌다.
+#6.새로고침, 버튼누르면 블랙팬서가 터미널에 잘찍혀야한다.
+
+
+#index 해설) 프론트에서 헤이라는 버튼을 누르면 form데이터가 생성되고 
+       #페치가 이걸 앱.파이 즉, 백엔드로 보낸다
+       #[app설명]
+       #post에서 /test 이상태에서 title_give가 있는지 찾아본다
+       #인덱스에서 블랙펜서라고 찾았다. 그럼 리턴 json으로 ,  내려라. 
+       #내린거 어디 담기냐면(인덱스로이동)> 콘솔 로그 데이터에 담긴다
+       #4-5강 종료  
+if __name__ == '__main__':  
+   app.run('0.0.0.0',port=5000,debug=True)
+
