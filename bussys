@@ -1,0 +1,446 @@
+<!--
+/**
+ * 버스공제조합 기간시스템 menu page
+ *
+ * @author 		<A Href="http://nst.co.kr">New Soft Techniques,Co.,Ltd.,ES Team</A>
+ * @author		<A Href="mailto:eora@nst.co.kr">유상근</A>
+ * @version		1.0
+ * @since		Bins 1.0
+ *
+ * History
+ * 1.0	2003-01-13	eora(유상근)	Initial Version
+ **/
+-->
+
+
+
+
+
+
+
+
+<html>
+<head>
+<meta content="text/html; charset=euc-kr" http-equiv=Content-Type>
+<link rel="stylesheet" href="/bins/system/style/cssSystem.css" type="text/css">
+<script language="javascript" src="/bins/system/script/gVariables.js"></script>
+<script language="javascript" src="/bins/system/script/system.js"></script>
+<script language="javascript" src="/bins/system/script/popup.js"></script>
+<script language="javascript" src="/bins/system/script/tree.js"></script>
+
+<script language="javascript">
+var iIntervalID;
+
+var lcheck;
+
+/**
+ * 페이지 로드시 처리하는 함수
+ */
+function onload() {
+	var ua	= window.navigator.userAgent;
+
+	if (ua.indexOf("MSIE 5.") != -1) {
+		//lblPgmNO.style.top = "5px";
+		lblPgmNO.className = "5";
+	}
+
+	setTreeStyle("gaTree_1");
+	queryMenu();
+
+	iIntervalID = setInterval("wait()", 1);
+}
+
+function wait() {
+	if (top.fraTitle.document.readyState != "complete") return;
+	if (top.fraStatus.document.readyState != "complete") return;
+
+	clearInterval(iIntervalID);
+
+	var sPgmID = "";
+	if (top.fraStatus.hidFshStartFlg.value == "Y")		// 마지막 로그인 페이지로 시작
+		sPgmID = top.fraStatus.hidFshPgmID.value;
+	else												// 지정된 시작프로그램으로 시작
+		sPgmID = top.fraStatus.hidBgnPgmID.value;
+
+	if (sPgmID == "") {					// 시작페이지가 설정이 안된 경우 안내 페이지
+			openPage("Welcome.htm");
+		//openPage("BoardMain.jsp");	//
+	}
+	else {
+		openPage(sPgmID);
+	}
+
+
+	// 출근등록 확인 (출근부 미등록시 출근 등록 팝업 오픈)
+	var vRtn = getUserData(BINS_GENERAL + "/Gwk0100_S.jsp", GAUCE_ACTION + "=check");
+
+	if (eval(vRtn).NameValue(1, "REG_FLG") == "N") {
+	//	openModalessPopup(BINS_GENERAL + "/Gwk0100.jsp", "200", "170");
+		// 국토부감사관련 임시
+		if (top.fraStatus.getSessionValue("SESS_EMP_NO") != "2011999")
+		{
+			openModalPopup(BINS_GENERAL + "/Gwk0100.jsp", "200", "170");
+		}	
+		fnPopup();
+	}
+	else
+	{
+		fnPopup();
+		
+	}
+	
+	//	openModalPopup(BINS_CLAIM + "/Lam0403_p1.jsp", "600", "400");
+	
+	
+	// 비밀번호 수정요청 (비밀번호와 주민번호뒷자리가 같을 경우 수정요청  팝업 오픈)
+	if ('7' + top.fraStatus.getSessionValue("SESS_REG_PASS").substr(1,6) == top.fraStatus.getSessionValue("SESS_PASSWORD")) {
+	//	alert("귀하의 비밀번호와 주민번호 뒷자리가 일치합니다. 비밀번호를 변경하시기 바랍니다.");
+		alert("현재 사용자님께서 사용하시는 비밀번호는 초기설정 비밀번호 입니다. 정보보호를 위하여 비밀번호를 변경사용하여 주시기 바랍니다.");
+	}
+}
+
+/**
+ *  팝업 오픈(2009-10-28)
+ */
+
+function fnPopup () {
+
+	// 공지사항 팝업추가 2009-10-28 *************************************
+	  var username = GetCookie('popup_20221017');
+	//  var username = null	;	
+	//  var username2 = GetCookie('popup_20211018');	// 동계콘도이용 안내
+
+	//if (username == null && top.fraStatus.getSessionValue("SESS_ADMIN_FLG") == "Y"){
+	
+	if (username == null ){
+	//if (username == null && (top.fraStatus.getSessionValue("SESS_HQ_BO_CD") != "01" && top.fraStatus.getSessionValue("SESS_HQ_BO_CD") != "04" && top.fraStatus.getSessionValue("SESS_HQ_BO_CD") != "07") ){
+			/** 서울,인천,경기 제외 팝업창 띄움(천병권) */
+			/** 신정보 팝업창 사이즈 조절(가로는 고정임:410) 이미지(이미지 가로사이즈 400px 고정)에 따라 세로만 수정(이미지 높이값 + 20px)  */
+			//openModalessPopup(BINS_SYSTEM + "/Sys0110.jsp", "410", "357");
+		
+		//업무자료 공유시스템 활용안내
+		/** 신정보 팝업창 사이즈 조절(가로는 고정임:350) 이미지(이미지 가로사이즈 400px 고정)에 따라 세로만 수정(이미지 높이값 + 25px)  */
+		//openModalessPopup(BINS_SYSTEM + "/Sys0110.jsp", "350", "400");
+		//openModalessPopup(BINS_SYSTEM + "/Sys0110.jsp", "350", "480");
+	}
+	
+	
+	//성수기 콘도 예약안내
+	//if (username2 == null){
+		/** 신정보 팝업창 사이즈 조절(가로는 고정임:350) 세로만 수정(이미지 높이값 + 20px)  */
+			//openHelpPopup(BINS_SYSTEM + "/Sys0110.jsp", "370", "555");
+		//openModalessPopup(BINS_SYSTEM + "/Sys0110.jsp", "350", "475");
+		//window.showModelessDialog(BINS_SYSTEM + "/Sys0115.jsp", "", "dialogWidth:350px;dialogHeight:505px;dialogLeft:710px;dialogTop:195px;center:no;resizable:no;scroll:no;status:no;")
+	//}
+}
+
+
+
+
+/**
+ * 메뉴 데이터를 조회하는 함수
+ */
+function queryMenu() {
+
+	var URL = BINS_SYSTEM + "/Sys0100_S.jsp";
+	var Param = GAUCE_ACTION + "=menu";
+
+	gaData_1.DataID = URL + "?" + Param;
+
+	gaData_1.Reset();
+
+}
+
+/**
+ * 프로그램 OPEN
+ *
+ * @param	sPgmID		Program ID
+ * @since	1.0
+ */
+function openPage (sPgmID) {
+
+	// 현재 프로그램 페이지에 열려진 프로그램이 있는 경우 저장 확인
+	if (top.fraStatus.checkButtonAuth("Save", false) &&
+		top.fraPage.onUnload != null) {
+		if (top.fraPage.onUnload() == false) return false;
+	}
+
+	// 2005-01-26 데이타 이관시 사용
+
+//	if (sPgmID.substring(0,7) != "Cjm1000" && sPgmID.substring(0,7) != "Cjm0110")
+//	{
+//		if (sPgmID.substring(0,1) != "G" && sPgmID.substring(0,1) != "W" && top.fraStatus.getSessionValue("SESS_ADMIN_FLG") != "Y" )
+//		{
+//			alert("인사/급여 이외는 사용할 수 없습니다.");
+//			openPage("Welcome.htm");		
+//			return false;
+//		}
+//	}
+
+	// 사용중인 공통 버튼 비활성화
+	setTopButton("NW1:DL1:QU1:SV1:PR1:FL1");
+
+	// 2013-10-07
+	if (sPgmID == "Lar0101.jsp")
+	{
+		if (!(top.fraStatus.getSessionValue("SESS_LOG_DT").substring(6,8) >= "25" && top.fraStatus.getSessionValue("SESS_LOG_DT").substring(6,8) <= "31"))
+		{
+			alert("월마감후 사고접수는 25 ~ 31일사이에만 작업가능합니다.");	
+			return;
+		}
+	}
+	else if (sPgmID == "Lar0102.jsp")
+	{
+		if (!(top.fraStatus.getSessionValue("SESS_LOG_DT").substring(6,8) >= "25" && top.fraStatus.getSessionValue("SESS_LOG_DT").substring(6,8) <= "31"))
+		{
+			alert("(月)사고접수마감은 25 ~ 31일사이에만 작업가능합니다.");	
+			return;
+		}
+	}
+
+	
+	// 현재 열려진 메뉴에 있는 프로그램인 경우 메뉴정보로 프로그램 열기
+	if (gaData_1.NameValueRow("PGM_ID", sPgmID) > 0) {
+
+		var row = gaData_1.NameValueRow("PGM_ID", sPgmID);
+		
+	//	row = gaData_1.RowPosition ;	// 2004-09-24 수정(페이지가 각각의 업무에 이중으로 등록되고 권한이 틀린경우 땜시)
+	
+		// 사용권한 확인
+		if (gaData_1.NameValue(row, "AUTH_FLG") != "N") {
+			if (gaData_1.NameValue(row, "USE_AUTH_FLG") != "T" &&
+				gaData_1.NameValue(row, "QRY_AUTH_FLG") != "T" &&
+				gaData_1.NameValue(row, "SAV_AUTH_FLG") != "T" &&
+				gaData_1.NameValue(row, "PRT_AUTH_FLG") != "T" &&
+				gaData_1.NameValue(row, "FLE_AUTH_FLG") != "T") {
+				showMessage("S005 : 죄송합니다.\n귀하는 본 프로그램을 사용하실 권한이 없습니다.\n보다 자세한 사항이나 문의는 관리자에게 연락바랍니다.\n[대인=김형준/한덕수, 대물 안전 회계=김형준, 계약=한덕수, 인사=김형준, 홈페이지=한덕수]");
+				return;
+			}
+		}
+		
+		
+		// Tree Dataset에서 프로그램정보 get
+		var vPos	= gaData_1.NameValue(row, "PGM_POS");
+		var vPgmID	= gaData_1.NameValue(row, "PGM_ID");
+		var vPgmNM	= gaData_1.NameValue(row, "PGM_NM");
+		var vPgmNO	= gaData_1.NameValue(row, "PGM_NO");
+
+		
+		// Tree에서 선택한 프로그램 오픈
+
+		// top.fraPage.location = BINS_SYSTEM + "/PageCallServlet?" + TARGET_PAGE + "=" + vPos + vPgmID;
+
+		top.fraPage.location = vPos + vPgmID;
+		
+		// 상태바와 프로그램 타이틀에 오픈하는 프로그램정보 표시
+
+		top.fraStatus.hidMenuID.value		= gaData_1.NameValue(row, "MENU_ID");
+		top.fraStatus.hidPgmID.value		= gaData_1.NameValue(row, "PGM_ID");
+		top.fraStatus.hidAuthFlg.value		= gaData_1.NameValue(row, "AUTH_FLG");
+		top.fraStatus.hidUseAuthFlg.value	= gaData_1.NameValue(row, "USE_AUTH_FLG");
+		top.fraStatus.hidQryAuthFlg.value	= gaData_1.NameValue(row, "QRY_AUTH_FLG");
+		top.fraStatus.hidSavAuthFlg.value	= gaData_1.NameValue(row, "SAV_AUTH_FLG");
+		top.fraStatus.hidPrtAuthFlg.value	= gaData_1.NameValue(row, "PRT_AUTH_FLG");
+		top.fraStatus.hidFleAuthFlg.value	= gaData_1.NameValue(row, "FLE_AUTH_FLG");
+
+		switch (gaData_1.NameValue(row, "PGM_ID").substring(0, 1)) {
+		case "A":	// 회계
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_ACCOUNT;
+			break;
+		case "D":	// 감사
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_AUDIT;
+			break;
+		case "L":	// 보상
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_CLAIM;
+			break;
+		case "C":	// 계약
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_CONTRACT;
+			break;
+		case "G":	// 인사
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_GENERAL;
+			break;
+		case "F":	// 안전
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_SAFETY;
+			break;
+		case "S":	// 시스템
+			top.fraStatus.hidSysTP.value	= BINS_SYSTP_SYSTEM;
+			break;
+		default:
+			top.fraStatus.hidSysTP.value	= "";
+			break;
+		}
+		
+		top.fraStatus.txtPgmNM.value = vPgmNM;
+		if (vPgmNO == "")
+			top.fraStatus.txtPgmID.value = vPgmID.substr(0, vPgmID.indexOf(".")).toUpperCase()
+		else
+			top.fraStatus.txtPgmID.value = vPgmID.substr(0, vPgmID.indexOf(".")).toUpperCase() + " [" + vPgmNO + "]";
+		top.fraTitle.lblPgmNm.innerText = vPgmNM;
+		
+
+	}
+	else {
+		var vPgmID = "";
+		if (sPgmID.indexOf("?") < 0)
+			vPgmID = sPgmID;
+		else
+			vPgmID = sPgmID.substring(0, sPgmID.indexOf("?"));
+
+		var URL = BINS_SYSTEM + "/Sys0100_S.jsp";
+		var Param = GAUCE_ACTION + "=program" + "&" +
+					"PgmID=" + vPgmID + "&" +
+					"PgmNO=" + "";
+
+
+		var vRtn = getUserData(URL, Param);
+		if (eval(vRtn).CountRow <= 0) {
+			showMessage("S006 : 본 프로그램은 등록되지 않은 프로그램입니다.\n보다 자세한 사항이나 문의는 관리자에게 하시기 바랍니다.\n[대인=김형준/한덕수, 대물 안전 회계=김형준, 계약=한덕수, 인사=김형준, 홈페이지=한덕수]");
+			return;
+		}
+
+		// 사용권한 확인
+		if (eval(vRtn).NameValue(row, "AUTH_FLG") != "N") {
+			if (eval(vRtn).NameValue(row, "USE_AUTH_FLG") != "T" &&
+				eval(vRtn).NameValue(row, "QRY_AUTH_FLG") != "T" &&
+				eval(vRtn).NameValue(row, "SAV_AUTH_FLG") != "T" &&
+				eval(vRtn).NameValue(row, "PRT_AUTH_FLG") != "T" &&
+				eval(vRtn).NameValue(row, "FLE_AUTH_FLG") != "T") {
+				showMessage("S005 : 죄송합니다.\n귀하는 본 프로그램을 사용하실 권한이 없습니다.\n보다 자세한 사항이나 문의는 관리자에게 연락바랍니다.\n[대인=김형준/한덕수, 대물 안전 회계=김형준, 계약=한덕수, 인사=김형준, 홈페이지=한덕수]");
+				return;
+			}
+		}
+
+		// 프로그램정보 get
+		var vPos	= eval(vRtn).NameValue(row, "PGM_POS");
+		var vPgmID	= eval(vRtn).NameValue(row, "PGM_ID");
+		var vPgmNM	= eval(vRtn).NameValue(row, "PGM_NM");
+		var vPgmNO	= eval(vRtn).NameValue(row, "PGM_NO");
+
+		// Tree에서 선택한 프로그램 오픈
+		//top.fraPage.location = BINS_SYSTEM + "/PageCallServlet?" + TARGET_PAGE + "=" + vPos + vPgmID;
+		top.fraPage.location = vPos + sPgmID;
+
+		// 상태바와 프로그램 타이틀에 오픈하는 프로그램정보 표시
+		top.fraStatus.hidMenuID.value		= "";
+		top.fraStatus.hidPgmID.value		= eval(vRtn).NameValue(row, "PGM_ID");
+		top.fraStatus.hidAuthFlg.value		= eval(vRtn).NameValue(row, "AUTH_FLG");
+		top.fraStatus.hidUseAuthFlg.value	= eval(vRtn).NameValue(row, "USE_AUTH_FLG");
+		top.fraStatus.hidQryAuthFlg.value	= eval(vRtn).NameValue(row, "QRY_AUTH_FLG");
+		top.fraStatus.hidSavAuthFlg.value	= eval(vRtn).NameValue(row, "SAV_AUTH_FLG");
+		top.fraStatus.hidPrtAuthFlg.value	= eval(vRtn).NameValue(row, "PRT_AUTH_FLG");
+		top.fraStatus.hidFleAuthFlg.value	= eval(vRtn).NameValue(row, "FLE_AUTH_FLG");
+
+
+		top.fraStatus.txtPgmNM.value = vPgmNM;
+		if (vPgmNO == "")
+			top.fraStatus.txtPgmID.value = vPgmID.substr(0, vPgmID.indexOf(".")).toUpperCase()
+		else
+			top.fraStatus.txtPgmID.value = vPgmID.substr(0, vPgmID.indexOf(".")).toUpperCase() + " [" + vPgmNO + "]";
+		top.fraTitle.lblPgmNm.innerText = vPgmNM;
+	}
+}
+
+// 프로그램번호로 페이지 Open
+function openPageWithNO (sPgmNO) {
+	if (sPgmNO == "") return;
+
+	var iFindRow = gaData_1.NameValueRow("PGM_NO", sPgmNO);
+	if (0 < iFindRow) {
+		// program history clear
+		top.fraStatus.initHistory();
+
+		openPage(gaData_1.NameValue(iFindRow, "PGM_ID"));
+	}
+	gaData_1.RowPosition = iFindRow;
+}
+
+function enterPgmNO (sPgmNO) {
+	if (event.keyCode != 13) return;
+
+	if (sPgmNO != "") openPageWithNO(sPgmNO);
+}
+</script>
+
+<!--
+/**
+ * Gauce Event
+ */
+ -->
+<script language="javascript" for="gaData_1" event="OnLoadError()">
+	/**
+	 * Dataset Load 시 에러가 발생할때 호출되는 이벤트
+	 */
+	srvMessage(gaData_1);
+</script>
+<script language="javascript" for=gaTree_1 event=OnDblClick()>
+	/**
+	 * Treeview의 데이터를 더블클릭할때 호출되는 이벤트
+	 */
+	// 더블클릭한 메뉴가 프로그램이 아닌 경우 Skip
+	if (gaData_1.NameValue(gaData_1.RowPosition, "PGM_ID") == "") return;
+
+	// program history clear
+	top.fraStatus.initHistory();
+
+	if (gaData_1.NameValue(gaData_1.RowPosition, "PGM_ID") == "Eis") {	// OLAP
+	        var win = window.open("http://192.168.0.13/wi/login.asp?strUsername=2023015", "OLAP", "");
+		win.focus();
+	}
+	 else
+	 {
+	 //	alert(gaTree_1.Version);
+		openPage(gaData_1.NameValue(gaData_1.RowPosition, "PGM_ID"));
+	 } 	
+</script>
+</head>
+
+<!--body onload="On_Load()" style="margin-top:0px;margin-left:0px;margin-right:0px;" oncontextmenu='return false'-->
+<body marginwidth=0 marginheight=0 topmargin=0 leftmargin=0 bgcolor=#ffffff
+	style="margin-top:0px;margin-left:0px;margin-right:0px;" oncontextmenu="return false" onload="onload()">
+
+<!-- Dataset Component 선언부 -->
+<object id="gaData_1" classid="clsid:3267EA0D-B5D8-11D2-A4F9-00608CEBEE49"
+	codebase="/bins/system/cab/toinbdata.cab#version=1,1,0,15">
+	<param name="SyncLoad" value=true>
+</object>
+
+<table cellpadding="0" cellspacing="0" width="100%" height="100%">
+<tr>
+	<td height="27px" align="center" bgcolor=#E6E6E6>
+	
+		<table height="100%" width="100%">
+		<tr vAlign="middle">
+			<td>
+				<img src="/bins/system/image/icoRefresh.gif" align=absmiddle
+					onclick="queryMenu()" alt="메뉴 새로고침">
+			</td>
+			<td width="100%" style="text-align:right;">
+				<label id="lblPgmNO" style="text-align:right;">단축번호</label>
+				<input type="Text" id="txtPgmNO" maxlength="4" style="width:30px; height:auto;"
+					onchange="openPageWithNO(this.value)" onkeydown="enterPgmNO(this.value)">
+				<img src="/bins/system/image/icoGo.gif" align=absmiddle
+					onclick="openPageWithNO(txtPgmNO.value)" alt="페이지 열기">
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td width="100%" height="100%">
+
+		<object id="gaTree_1" width="100%" height="100%"
+			classid="clsid:4401B994-DD33-11D2-B539-006097ADB678"
+			codebase="/bins/system/cab/toinbtree.cab#version=1,1,0,13">
+			<param name="DataID"		value="gaData_1">
+			<param name="TextColumn"	value="MENU_NM">
+			<param name="LevelColumn"	value="MENU_LVL">
+			<param name="ItemType"		value="0">
+			<param name="BorderStyle"	value="0">
+		<!--	<param name="ItemForeColor" value="MENU_COLOR"> --><!-- 2021-11-24 주석처리-->
+		</object>
+	</td>
+</tr>
+</table>
+
+</body>
+</html>
